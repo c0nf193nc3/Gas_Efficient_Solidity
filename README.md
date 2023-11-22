@@ -64,7 +64,7 @@ private uint256 privateConstant = 123;
 
 In the first line, `publicConstant` is declared as `public`, which consumes more gas due to the automatically generated getter function. In the second line, `privateConstant` is declared as `private`, which is more gas-efficient. This is a good practice to follow when writing Solidity contracts, as it helps to optimize gas usage. However, keep in mind that `private` constants are not accessible from derived contracts or via transactions. If you need to access a constant from outside the contract, you'll need to use `public`.
 
-## statement - Don't use `SafeMath` once the solidity version is 0.8.0 or greater : 
+## Don't use `SafeMath` once the solidity version is 0.8.0 or greater : 
 "In Solidity, the `SafeMath` library was commonly used to prevent integer overflow and underflow issues in versions prior to 0.8.0. However, starting from version 0.8.0, Solidity has built-in overflow and underflow checks. Therefore, using `SafeMath` is no longer necessary and can be avoided to save gas."
 
 ##### Here's an example to illustrate this:
