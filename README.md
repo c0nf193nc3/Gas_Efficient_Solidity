@@ -384,3 +384,40 @@ contract MyContract {
 ```
 
 In the first contract, `assert()` is used, which consumes all gas if the condition fails. In the second contract, `require()` is used, which reverts all changes and returns the remaining gas if the condition fails. This is a good practice to follow when writing Solidity contracts, as it helps to optimize gas usage. Always use the latest version of Solidity that's compatible with your codebase for the best security and efficiency. However, keep in mind that `assert()` and `require()` serve different purposes and should be used in appropriate situations. Always thoroughly test your contract after making any changes to ensure it still works as expected.
+
+## Use hardcode address instead of `address(this)` :
+
+In Solidity, `address(this)` is used to refer to the address of the current contract. It's dynamic and changes depending on the contract's address. On the other hand, a hardcoded address is a fixed address that doesn't change.
+
+##### Here's an example:
+
+```solidity
+// Using `address(this)`
+address contractAddress = address(this);
+
+// Using hardcoded address
+address contractAddress = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+```
+
+In the first line, `address(this)` is used to get the current contract's address. In the second line, a hardcoded address is used. While it might seem like using a hardcoded address could save gas because it doesn't require computation, it's not a recommended practice. Hardcoding an address can lead to errors and security issues if the address changes or if the contract is deployed to a different network (like moving from a testnet to the mainnet). Moreover, the gas cost difference between these two methods is negligible. The EVM (Ethereum Virtual Machine) is highly optimized, and the gas cost for computing `address(this)` is minimal.
+
+
+## Constructors may be declared `payable` to save gas : 
+
+In Solidity, a constructor is a special function that is executed during the creation of the contract and cannot be called afterwards. It is often used to set the initial state of the contract. The `payable` keyword in Solidity is used to allow a function to receive Ether. If a function is not marked `payable`, it will reject any Ether sent to it. However, marking a constructor as `payable` does not save gas. The `payable` modifier allows the contract to accept Ether upon creation, but it does not have an impact on the gas cost of the constructor or any other function in the contract.
+
+#### Here's an example:
+
+```solidity
+// Constructor without `payable`
+constructor(uint initialSupply) public {
+    // some code
+}
+
+// Constructor with `payable`
+constructor(uint initialSupply) public payable {
+    // some code
+}
+```
+
+In the first constructor, the contract cannot receive Ether during deployment. In the second constructor, the contract can receive Ether during deployment because it's marked `payable`. But this does not affect the gas cost of the constructor. So, while it's important to consider gas optimization, marking a constructor as `payable` does not save gas. It's used when you want the contract to accept Ether upon creation.
